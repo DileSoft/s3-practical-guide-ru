@@ -32,4 +32,4 @@ backend_config:
       theme: material
 
 chapters:
-  - s3.md
+  - index.md
