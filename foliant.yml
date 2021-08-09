@@ -1,5 +1,5 @@
 title: Дом Протопии
-slug: !env CI_PROJECT_PATH_SLUG
+slug: !env CI_PROJECT_NAME
 src_dir: src
 tmp_dir: __folianttmp__
 
@@ -19,13 +19,13 @@ backend_config:
       - strikeout
   mkdocs:
     mkdocs_path: mkdocs
-    slug: !env CI_PROJECT_PATH_SLUG
+    slug: !env CI_PROJECT_NAME
     use_title: true
     use_chapters: true
     use_headings: true
     default_subsection_title: Expand
     mkdocs.yml:
-      site_name: !env CI_PROJECT_PATH_SLUG
+      site_name: !env CI_PROJECT_TITLE
       site_url: !env CI_PROJECT_URL
       repo_url: !env CI_PROJECT_URL
       edit_uri: !env CI_EDIT_PREFIX
