@@ -1,0 +1,43 @@
+image: 
+  name: foliant/foliant
+  entrypoint: [""]
+
+.pdf:
+  variables:
+    DEBIAN_FRONTEND: "noninteractive"
+  script:
+    - apt-get update
+    - apt-get -y --fix-missing install wget wkhtmltopdf
+    - wget https://github.com/jgm/pandoc/releases/download/2.0.5/pandoc-2.0.5-1-amd64.deb && dpkg -i pandoc-2.0.5-1-amd64.deb
+    - python3 -m pip install foliantcontrib.pandoc
+    - foliant make pdf
+  artifacts:
+    paths:
+      - $CI_PROJECT_PATH_SLUG.pdf
+
+pages:
+  script:
+    - pip3 install -r ./requirements.txt
+    - pip3 install mkdocs-material
+    - CI_EDIT_PREFIX="-/edit/${CI_COMMIT_BRANCH}/src/" foliant make site -w mkdocs
+    - mv "${CI_PROJECT_PATH_SLUG}.mkdocs" public
+  only:
+    refs:
+      - main
+      - master
+      - production
+  artifacts:
+    paths:
+    - public
+
+pdf_main:
+  extends: .pdf
+  only:
+    refs:
+      - main
+      - master
+      - production
+
+pdf_manual:
+  extends: .pdf
+  when: manual
